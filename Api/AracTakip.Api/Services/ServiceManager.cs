@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;   
 using Repositories.Contracts;
 using Services.Contracts;
 
@@ -6,13 +6,14 @@ namespace Services
 {
     public class ServiceManager : IServiceManager
     {
-        // private readonly Lazy<IXService> _xService;
+        private readonly Lazy<IAuthService> _authenticationService;
 
         public ServiceManager(IRepositoryManager repositoryManager, IConfiguration configuration)
         {
-            // _xService = new Lazy<IXService>(() => new XManager(repositoryManager));
+            _authenticationService = new Lazy<IAuthService>(() =>
+                new AuthenticationManager(repositoryManager, configuration));
         }
 
-        // public IXService XService => _xService.Value;
+        public IAuthService AuthenticationService => _authenticationService.Value;
     }
 }
